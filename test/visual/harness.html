@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>创意堂 — 界面自检</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #f2f3f5; }
+  #root { height: 100vh; }
+  body { font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script>
+  const params = new URLSearchParams(location.search)
+  const long = '把周末逛菜市场这件事做成一条可以重复走的散步路线，顺路记录摊位、价格和当季的菜，三个月后整理成一份给邻居看的《县城菜市场指南》'
+  const demo = [
+    { id: '1', title: long, note: '从东门进，绕一圈，看看早市和午市的差别。', tags: ['生活', '写作'], status: 'active', nextStep: '先画一张从东门到西门的路线草图，标出三个想常去的摊位。', createdAt: '2026-10-20T02:00:00.000Z', updatedAt: '2026-10-22T02:00:00.000Z' },
+    { id: '2', title: 'Rework the onboarding flow for first-time contributors with a 5-minute guided tour', note: 'English sample for wrapping: version v1.2.3-rc.4+build.2026.10.22.', tags: ['work', 'onboarding'], status: 'spark', nextStep: '列出新贡献者最常卡住的三个步骤。', createdAt: '2026-10-19T02:00:00.000Z', updatedAt: '2026-10-21T09:30:00.000Z' },
+    { id: '3', title: '给老家的院子做一套低维护的植物搭配', note: '耐旱、少修剪，能过冬。', tags: ['生活'], status: 'done', nextStep: '', createdAt: '2026-10-01T02:00:00.000Z', updatedAt: '2026-10-10T02:00:00.000Z' },
+    { id: '4', title: '写一篇关于县城咖啡馆的观察笔记：谁在下午三点坐下来喝一杯', note: '', tags: [], status: 'parked', nextStep: '先选三家店各坐一个下午。', createdAt: '2026-09-28T02:00:00.000Z', updatedAt: '2026-10-05T02:00:00.000Z' }
+  ]
+  window.__mockIdeas = params.has('empty') ? [] : demo
+  window.__sampleAssoc = {
+    at: new Date().toISOString(),
+    model: 'deepseek-official/deepseek-flash',
+    items: [
+      {
+        area: 'PCB 原理图与打样',
+        why: '要控制水泵、土壤湿度和电源，需要一块自己的板子。',
+        firstStep: '先用 ESP32 开发板加继电器搭出最小控制回路。',
+        deliverable: '一份元器件清单草案和接口说明'
+      },
+      {
+        area: '嵌入式程序',
+        why: '定时浇水、读取湿度、异常时停止，都需要程序。',
+        firstStep: '写一个每 10 秒读一次湿度并打印的循环。',
+        deliverable: '一段可运行的最小示例代码'
+      },
+      {
+        area: '机械结构与水路',
+        why: '水泵、水管和花盆要能稳定连接，不能漏水。',
+        firstStep: '用现成的水泵和水管先做一次通水测试。',
+        deliverable: '一份装配步骤和常见漏水点检查清单'
+      },
+      {
+        area: '物料与成本',
+        why: '个人做要先控制成本，避免一开始就投入太多。',
+        firstStep: '列出第一批必须买的 5 样东西。',
+        deliverable: '一份带数量和参考价的采购清单'
+      }
+    ]
+  }
+  window.__sampleDraft = {
+    at: new Date().toISOString(),
+    text: '最小控制回路建议（初稿）\n\n- 主控：ESP32 开发板，自带 Wi-Fi，方便后面加手机查看。\n- 土壤湿度：电容式传感器，避免电阻式探头腐蚀。\n- 执行：5V 继电器模块控制小水泵，水泵单独供电。\n- 保护：水泵电源与主控共地，但不要从开发板取水泵电流。\n\n接线顺序：湿度传感器接 ADC 引脚；继电器信号接 GPIO；先只让继电器吸合 1 秒，确认水泵动作后再加水。\n\n下一步：把上述元件插在面包板上跑通「读湿度 → 判断 → 吸合 1 秒」。\n\n这是初稿，需要按实际情况调整。'
+  }
+  window.__sampleResearch = {
+    at: new Date().toISOString(),
+    model: 'deepseek-official/deepseek-flash',
+    online: true,
+    query: '菜市场 散步路线 指南',
+    priorArt: {
+      level: 'similar',
+      summary: '检索到一些相近的散步路线和菜市场记录项目 [1][2]，但没有发现完全相同的「菜市场指南 + 摊位价格」组合；更像本地生活记录，尚未看到成熟产品。',
+      sources: [
+        { url: 'https://example.com/market-walk', title: '城市漫步：把菜市场走成一条路线', snippet: '一些城市观察者用步行路线串联菜市场与街区小店。' },
+        { url: 'https://example.com/market-guide', title: '菜市场指南的几种做法', snippet: '以摊位、价格和时令为线索的社区记录。' }
+      ]
+    },
+    commercial: {
+      score: 42,
+      verdict: '单独作为内容产品直接收费的空间有限，但可以发展成本地生活内容或社区运营的入口。',
+      reasons: ['需求真实但比较分散', '内容容易被复制，壁垒在持续更新和本地关系']
+    },
+    applications: [
+      { area: '本地生活内容', note: '做成小城菜市场的季节指南，靠广告或订阅变现。' },
+      { area: '社区运营', note: '和街道、菜场管理方合作做居民活动。' }
+    ]
+  }
+  window.__sampleFeed = {
+    queries: ['有人想做但市面上还没有的产品 创意', 'SomebodyMakeThis 没人做的点子'],
+    extracted: true,
+    items: [
+      { title: '给独居老人做一台「会自己报平安」的收音机', summary: '老人只需要按一下，子女就能收到状态；目前没有专门为不会用手机的老人做的产品。', url: 'https://example.com/a', host: 'example.com' },
+      { title: '菜市场收摊前的「剩菜盲盒」小程序', summary: '摊主傍晚把剩菜打包低价卖出；已有零星尝试，但没有覆盖小城市的成熟方案。', url: 'https://example.com/b', host: 'example.com' },
+      { title: '帮小店主自动生成「今日特价」海报的工具', summary: '店主拍一张菜价照片就能出图；现有工具偏电商，实体小店用不上。', url: 'https://example.com/c', host: 'example.com' },
+      { title: '给县城咖啡馆做的「安静时段」地图', summary: '标注每家店最安静的时段和插座位置；有人零散记录，没有产品化。', url: 'https://example.com/d', host: 'example.com' }
+    ]
+  }
+  window.__ModuleLoader__ = { load: (definition) => { window.__wbDefinition = definition } }
+</script>
+<script src="../../lib/client.js"></script>
+<script>
+  const definition = window.__wbDefinition
+  const React = window.React
+  const ReactDOM = window.ReactDOM
+  const requireStub = (name) => name === 'react' ? React : name === 'react-dom' ? ReactDOM : undefined
+  const mod = definition.factory(requireStub)
+
+  const service = {
+    subscribe: () => () => {},
+    currentSession: () => '',
+    ownsSession: () => false,
+    newSession: () => Promise.resolve(),
+    newWorkspaceSession: () => Promise.resolve(),
+    run: (promise) => { if (promise && promise.catch) promise.catch(() => {}) }
+  }
+  const conversation = React.createElement('div', {
+    style: { padding: '16px', color: '#555', border: '1px dashed #bbb', margin: '12px', borderRadius: '8px' }
+  }, '（这里是宿主提供的原生会话节点）')
+
+  let Panel = null
+  mod.apply({
+    effect: (callback) => { const dispose = callback(); return () => { if (typeof dispose === 'function') dispose() } },
+    desktopWorkbenches: { register: (descriptor, Component) => { Panel = Component; return () => {} } }
+  })
+
+  window.fetch = async (url, init) => {
+    if (init && init.method === 'PUT') {
+      return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'content-type': 'application/json' } })
+    }
+    if (init && init.method === 'POST' && String(url).includes('/research')) {
+      return new Response(JSON.stringify({ research: window.__sampleResearch }), { status: 200, headers: { 'content-type': 'application/json' } })
+    }
+    if (init && init.method === 'POST' && String(url).includes('/discover')) {
+      return new Response(JSON.stringify(window.__sampleFeed), { status: 200, headers: { 'content-type': 'application/json' } })
+    }
+    if (init && init.method === 'POST' && String(url).includes('/associate')) {
+      return new Response(JSON.stringify({ associations: window.__sampleAssoc }), { status: 200, headers: { 'content-type': 'application/json' } })
+    }
+    if (init && init.method === 'POST' && String(url).includes('/draft')) {
+      return new Response(JSON.stringify({ draft: window.__sampleDraft }), { status: 200, headers: { 'content-type': 'application/json' } })
+    }
+    return new Response(JSON.stringify({ version: 1, ideas: window.__mockIdeas }), { status: 200, headers: { 'content-type': 'application/json' } })
+  }
+
+  const containerWidth = Number(params.get('w'))
+  if (containerWidth) {
+    const host = document.getElementById('root')
+    host.style.width = containerWidth + 'px'
+    host.style.margin = '0 auto'
+    host.style.boxShadow = '0 0 0 1px #c9ccd2'
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    React.createElement(Panel, { service, conversation, entry: {}, active: true })
+  )
+
+  if (params.get('select') === '1') {
+    setTimeout(() => { const item = document.querySelector('.ch-item'); if (item) item.click() }, 700)
+  }
+  if (params.has('research')) {
+    setTimeout(() => {
+      const button = Array.from(document.querySelectorAll('button')).find((node) => node.textContent === '开始评估')
+      if (button) button.click()
+    }, 1500)
+  }
+  if (params.has('web')) {
+    setTimeout(() => {
+      const button = Array.from(document.querySelectorAll('button')).find((node) => node.textContent === '网络灵感')
+      if (button) button.click()
+    }, 700)
+  }
+  if (params.has('assoc')) {
+    setTimeout(() => {
+      const button = Array.from(document.querySelectorAll('button')).find((node) => node.textContent === '生成联想')
+      if (button) button.click()
+    }, 1400)
+  }
+  if (params.has('draft')) {
+    setTimeout(() => {
+      const button = Array.from(document.querySelectorAll('button')).find((node) => node.textContent === '让 AI 打个样')
+      if (button) button.click()
+    }, 2400)
+  }
+  if (params.has('ai')) {
+    setTimeout(() => {
+      const button = Array.from(document.querySelectorAll('button')).find((node) => node.textContent === 'AI 协助')
+      if (button) button.click()
+    }, 700)
+  }
+  if (params.has('create')) {
+    const setValue = (element, value) => {
+      const proto = element.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
+      const setter = Object.getOwnPropertyDescriptor(proto, 'value').set
+      setter.call(element, value)
+      element.dispatchEvent(new Event('input', { bubbles: true }))
+    }
+    setTimeout(() => {
+      const button = Array.from(document.querySelectorAll('button')).find((node) => node.textContent === '新建创意')
+      if (button) button.click()
+      setTimeout(() => {
+        const title = document.querySelector('#ch-new-title')
+        if (title) setValue(title, '在阳台记录一年四季的光照变化，做一张自己的日照表')
+        const note = document.querySelector('#ch-new-note')
+        if (note) setValue(note, '每天早上和傍晚各拍一张，标上时间和天气，三个月后对照看变化。')
+        const tags = document.querySelector('#ch-new-tags')
+        if (tags) setValue(tags, '生活，观察')
+        if (params.has('save')) {
+          const save = Array.from(document.querySelectorAll('button')).find((node) => node.textContent === '保存创意')
+          if (save) save.click()
+        }
+      }, 400)
+    }, 600)
+  }
+  if (params.has('metrics')) {
+    setTimeout(() => {
+      const box = (selector) => {
+        const node = document.querySelector(selector)
+        if (!node) return null
+        const rect = node.getBoundingClientRect()
+        return { w: Math.round(rect.width), left: Math.round(rect.left), scroll: node.scrollWidth, display: getComputedStyle(node).display, flex: getComputedStyle(node).flex }
+      }
+      document.title = JSON.stringify({
+        inner: window.innerWidth,
+        docScroll: document.documentElement.scrollWidth,
+        root: box('.ch-root'),
+        head: box('.ch-head'),
+        tools: box('.ch-tools'),
+        search: box('.ch-search'),
+        body: box('.ch-body'),
+        detail: box('.ch-detail-pane'),
+        title: box('.ch-title-input'),
+        meta: box('.ch-meta')
+      })
+    }, 1600)
+  }
+</script>
+</body>
+</html>

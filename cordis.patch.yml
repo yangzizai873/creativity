@@ -1,0 +1,7 @@
+# 创意堂：把服务端入口插入 Harness 插件树。
+# root 是业务数据目录（DSH 数据目录下的 creativity-hall），卸载插件不会删除它。
+- insert:
+    - id: creativity-hall
+      name: dsh-creativity-hall
+      config:
+        root: !!js dshHomePath('creativity-hall')

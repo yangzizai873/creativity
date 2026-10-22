@@ -1,0 +1,48 @@
+{
+  "name": "dsh-creativity-hall",
+  "version": "0.6.0",
+  "description": "创意堂：收集并整理个人创意，再把选中的想法变成下一步行动。",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangzizai873/creativity.git"
+  },
+  "homepage": "https://github.com/yangzizai873/creativity",
+  "type": "module",
+  "main": "./dsh/index.js",
+  "exports": {
+    ".": "./dsh/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dsh",
+    "lib",
+    "scripts",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "dsh-desktop-workbenches"
+      ]
+    }
+  },
+  "scripts": {
+    "check": "node scripts/check-workbench-package.mjs",
+    "test": "node --import ./test/loader.mjs test/server.test.mjs && node test/client.test.mjs"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-workbench",
+    "creativity"
+  ],
+  "license": "Apache-2.0",
+  "author": "yangzizai873"
+}
