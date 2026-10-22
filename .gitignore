@@ -4,3 +4,4 @@ test/visual/vendor/
 test/visual/.edge*/
 test/visual/*.png
 .DS_Store
+*.log
